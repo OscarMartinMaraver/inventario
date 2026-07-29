@@ -6,35 +6,41 @@
               'href' => route('admin.dashboard'),
               'active' => request()->routeIs('admin.dashboard'), //El objeto request() nos permite acceder a la información de la petición actual y comprobar si estamos en esa ruta
           ],
+          [
+              'name' => 'Categorias',
+              'icon' => 'fa-solid fa-list',
+              'href' => route('admin.categories.index'),
+              'active' => request()->routeIs('admin.categories.*'),
+          ],
 
           //EJEMPLOS DE OTROS MENUS DINAMICOS, DESARROLLADOS MAS ADELANTE
-        //   [
-        //       'header' => 'Administrar página',
-        //   ],
+          //   [
+          //       'header' => 'Administrar página',
+          //   ],
 
-        //   [
-        //       'name' => 'Compra',
-        //       'icon' => 'fa-solid fa-basket-shopping',
-        //       'href' => route('admin.dashboard'),
-        //       'active' => false,
-        //       'submenu' => [
-        //           [
-        //               'name' => 'Productos',
-        //               'href' => '#',
-        //               'active' => false,
-        //           ],
-        //           [
-        //               'name' => 'Categorias',
-        //               'href' => '#',
-        //               'active' => false,
-        //           ],
-        //           [
-        //               'name' => 'Imagenes',
-        //               'href' => '#',
-        //               'active' => false,
-        //           ],
-        //       ],
-        //   ],
+          //   [
+          //       'name' => 'Compra',
+          //       'icon' => 'fa-solid fa-basket-shopping',
+          //       'href' => route('admin.dashboard'),
+          //       'active' => false,
+          //       'submenu' => [
+          //           [
+          //               'name' => 'Productos',
+          //               'href' => '#',
+          //               'active' => false,
+          //           ],
+          //           [
+          //               'name' => 'Categorias',
+          //               'href' => '#',
+          //               'active' => false,
+          //           ],
+          //           [
+          //               'name' => 'Imagenes',
+          //               'href' => '#',
+          //               'active' => false,
+          //           ],
+          //       ],
+          //   ],
       ];
 
   @endphp
@@ -70,7 +76,7 @@
                               <ul id="dropdown-example" class="hidden py-2 space-y-2">
                                   @foreach ($link['submenu'] as $submenu)
                                       <li>
-                                          <a href="{{$submenu['href']}}"
+                                          <a href="{{ $submenu['href'] }}"
                                               class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{ $submenu['name'] }}</a>
                                       </li>
                                   @endforeach

@@ -20,6 +20,9 @@
     {{-- Font Awesome --}}
     <script src="https://kit.fontawesome.com/310dfe7518.js" crossorigin="anonymous"></script>
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     {{-- Wire UI --}}
     <wireui:scripts />
 
@@ -60,6 +63,18 @@
     @livewireScripts
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+    {{-- Para emitir las alertas --}}
+    @if (session('swal'))
+        <script>
+            Swal.fire(@json(session('swal')))
+            //El contenido de session('swal') hay que pasárselo al método Swal.fire, pero lo que le paso es una array php y lo que espera swal.fire es un objeto JavaScript, por lo que lo convertimos a JSON
+        </script>
+    @endif
+
+    {{-- Renderizar scripts adicionales que se hayan definido en otras vistas. En la vista hija usa @push('js'). Aquí se renderizan  por ejemplo el script para convertir el título en slug, 
+    o el script para confirmar la eliminación de una categoria o post --}}
+    @stack('js')
 
 </body>
 
