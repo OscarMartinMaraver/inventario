@@ -31,6 +31,11 @@
 
     <!-- Styles -->
     @livewireStyles
+
+    {{-- Para cargar estilos adicionales --}}
+    @stack('css')
+
+   
 </head>
 
 <body class="font-sans antialiased bg-gray-100">

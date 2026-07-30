@@ -14,8 +14,7 @@ title="Dashboard"
 ]">
     {{-- Extiende la plantilla de admin. originalmen admin-layout.components (la he sacado fuera, renombrado admin y en el componente AdminLayout renombrado la vista renderizada) --}}
     {{-- Le paso al componente un array de breadcrumbs, esto se conocde como props (pasarle información a un componente). En la plantilla admin hay que llamar a la directiva @props --}}
-
-    {{-- DA ERROR. El objetivo era meter información a la altura del breadcrumb . Parece que la parte de la plantilla está bien.--}}
+    
    <x-slot name="action">
         Crear usuario
     </x-slot> 

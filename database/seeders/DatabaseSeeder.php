@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -26,6 +27,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class
             ]);
+
+        //Crea productos usando el factory en lugar de un archivo seeder
+        Product::factory(100)->create();    
 
     }
 }
