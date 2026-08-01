@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,12 +25,16 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('Password'),
         ]);
 
+        //datos creados con el seeder(manualmente)
         $this->call([
+            IdentitySeeder::class,
             CategorySeeder::class
-            ]);
+        ]);
+
+        // Crea clientes con factory
+        Customer::factory(50)->create();
 
         //Crea productos usando el factory en lugar de un archivo seeder
-        Product::factory(100)->create();    
-
+        Product::factory(100)->create();
     }
 }

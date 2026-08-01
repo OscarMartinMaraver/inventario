@@ -18,6 +18,12 @@
               'href' => route('admin.products.index'),
               'active' => request()->routeIs('admin.products.*'),
           ],
+           [
+              'name' => 'Clientes',
+              'icon' => 'fa-solid fa-users',
+              'href' => route('admin.customers.index'),
+              'active' => request()->routeIs('admin.customers.*'),
+          ],
 
           //EJEMPLOS DE OTROS MENUS DINAMICOS, DESARROLLADOS MAS ADELANTE
           //   [

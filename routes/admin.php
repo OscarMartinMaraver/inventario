@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,8 @@ Route::get('/', function () {//No es necesario indicar el prefijo  /admin (ya qu
 Route::resource('categories', CategoryController::class)->except(['show']);
 
 Route::resource('products', ProductController::class)->except(['show']);
+
+Route::resource('customers', CustomerController::class)->except(['show']);
 
 // Ruta para almacenar imagenes
 Route::post('products/{product}/dropzone', [ProductController::class, 'dropzone'])->name('products.dropzone');

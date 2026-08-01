@@ -11,10 +11,12 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 class ProductTable extends DataTableComponent
 {
     /**Para evitar el problema N+1 (Cada vez que quiero acceder a la categoria del producto, o la imagen del producto (la imagen se trae mediante un accesor del modelo Product), se hace una consulta, es decir, en este caso 100 consultas), necesito cargar
-     * previamente el modelo Product::class. Por ello en lugar de hacerlo con Protected $model = Product::class, huso la función Builder del final.
+     * previamente el modelo Product::class. Por ello en lugar de hacerlo con Protected $model = Product::class, uso la función Builder del final.
      * Así hace una consulta para traer los productos y otra consulta para traer las relaciones con categoria
      */
     // protected $model = Product::class;
+
+    // Indico nombre de la tabla para evitar problemas al traducir las columnas
     public string $tableName = 'products_table';
 
 
