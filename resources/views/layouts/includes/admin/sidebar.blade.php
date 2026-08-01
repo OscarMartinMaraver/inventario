@@ -24,6 +24,12 @@
               'href' => route('admin.customers.index'),
               'active' => request()->routeIs('admin.customers.*'),
           ],
+          [
+              'name' => 'Proveedores',
+              'icon' => 'fa-solid fa-truck',
+              'href' => route('admin.suppliers.index'),
+              'active' => request()->routeIs('admin.suppliers.*'),
+          ],
 
           //EJEMPLOS DE OTROS MENUS DINAMICOS, DESARROLLADOS MAS ADELANTE
           //   [

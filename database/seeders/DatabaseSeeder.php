@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Customer;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -33,6 +34,9 @@ class DatabaseSeeder extends Seeder
 
         // Crea clientes con factory
         Customer::factory(50)->create();
+
+        // Crea proveedores con factory
+        Supplier::factory(50)->create();
 
         //Crea productos usando el factory en lugar de un archivo seeder
         Product::factory(100)->create();
