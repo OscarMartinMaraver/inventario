@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
         //datos creados con el seeder(manualmente)
         $this->call([
             IdentitySeeder::class,
-            CategorySeeder::class
+            CategorySeeder::class,
+            WarehouseSeeder::class,
         ]);
 
         // Crea clientes con factory

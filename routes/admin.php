@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,6 +21,8 @@ Route::resource('products', ProductController::class)->except(['show']);
 Route::resource('customers', CustomerController::class)->except(['show']);
 
 Route::resource('suppliers', SupplierController::class)->except(['show']);
+
+Route::resource('warehouses', WarehouseController::class)->except(['show']);
 
 // Ruta para almacenar imagenes con Dropzone
 Route::post('products/{product}/dropzone', [ProductController::class, 'dropzone'])->name('products.dropzone');
