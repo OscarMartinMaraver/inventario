@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('type');
             $table->string('serie');
             $table->integer('correlative');
-            $table->timestamp('date');
+            $table->timestamp('date')->useCurrent();
             $table->decimal('total', 10, 2)->default(0.00);
             $table->string('observation')->nullable();
             $table->foreignId('origin_warehouse_id')->constrained('warehouses')->onDelete('cascade');

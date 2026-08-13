@@ -69,7 +69,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
-    {{-- Para emitir las alertas --}}
+
+     {{-- Para emitir las alertas creadas con componetes livewire --}}
+    <script>
+
+       Livewire.on('swal',(data)=>{
+            Swal.fire(data[0]);
+        });
+
+    </script>
+  
+    {{-- Para emitir las alertas almacenadas en la sesión --}}
     @if (session('swal'))
         <script>
             Swal.fire(@json(session('swal')))
