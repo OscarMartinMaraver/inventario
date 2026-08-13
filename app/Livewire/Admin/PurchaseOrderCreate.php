@@ -10,7 +10,7 @@ class PurchaseOrderCreate extends Component
 {
     public $voucher_type=1;
 
-    public $serie = 'OC-01'; //Le asigno un valo y en el view lo muestro como disabled para que no se pueda modificar
+    public $serie = 'OC01'; //Le asigno un valo y en el view lo muestro como disabled para que no se pueda modificar
 
     public $correlative;
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\PurchaseOrderController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\WarehouseController;
@@ -27,6 +28,7 @@ Route::resource('warehouses', WarehouseController::class)->except(['show']);
 
 Route::resource('suppliers', SupplierController::class)->except(['show']);
 Route::resource('purchase-orders', PurchaseOrderController::class)->only(['index', 'create']);
+Route::resource('purchases', PurchaseController::class)->only(['index', 'create']);
 
 //VENTAS
 
