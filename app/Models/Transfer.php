@@ -34,7 +34,7 @@ class Transfer extends Model
 
     /*Primero hya que indicar el modelo con el cual se va a relacionar (Product), despues indicar el nombre de la llave polimórfica (productable), y como quiero que me incluya otra información de la 
     tabla intermedica (quantity, price, subtotoal), se indica con withPivot*/
-    public function porducts()
+    public function products()
     {
         return $this->morphToMany(Product::class, 'productable')
         ->withPivot('quantity', 'price', 'subtotal')

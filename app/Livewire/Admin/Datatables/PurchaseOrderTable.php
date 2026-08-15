@@ -47,7 +47,7 @@ class PurchaseOrderTable extends DataTableComponent
                 ->format(fn($value) => '€/ ' . number_format($value, 2, '.', ',')),
             Column::make("Acciones")
                 ->label(function ($row) {
-                    return view('admin.purchase_orders.actions', ['purchasOrder' => $row]);
+                    return view('admin.purchase_orders.actions', ['purchaseOrder' => $row]);
                     //Con format() capturamos un valor de una celda y lo formateamos
                     //Con label() capturamos la fila completa para manipularla. Solo llama los valores que hemos definido en las columnas, si hay algo que no se muestra, 
                     //habría que añadirlo como algo adicional en la funcion configure()

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 class PurchaseTable extends DataTableComponent
 {
     /**
-     * * Reemplazamos la propiedad "$model = PurchaseOrder::class" por el método builder()
+     * * Reemplazamos la propiedad "$model = Purchase::class" por el método builder()
      * para realizar "Eager Loading" (carga ambiciosa) de la relación 'supplier'.
      *
      * Esto evita el problema de N+1 consultas: sin el "with('supplier')", Laravel realizaría 
@@ -18,7 +18,7 @@ class PurchaseTable extends DataTableComponent
      * para obtener el proveedor de cada una. Con este método, todo se resuelve en solo 2 consultas.
      */
 
-    //protected $model = PurchaseOrder::class;
+    //protected $model = Purchase::class;
 
     public function configure(): void
     {
@@ -47,7 +47,7 @@ class PurchaseTable extends DataTableComponent
                 ->format(fn($value) => '€/ ' . number_format($value, 2, '.', ',')),
             Column::make("Acciones")
                 ->label(function ($row) {
-                    return view('admin.purchase_orders.actions', ['purchasOrder' => $row]);
+                    return view('admin.purchases.actions', ['purchase' => $row]);
                     //Con format() capturamos un valor de una celda y lo formateamos
                     //Con label() capturamos la fila completa para manipularla. Solo llama los valores que hemos definido en las columnas, si hay algo que no se muestra, 
                     //habría que añadirlo como algo adicional en la funcion configure()
