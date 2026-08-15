@@ -4,7 +4,7 @@
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Ordenes de compra',
+        'name' => 'Cotizaciones',
         'href' => route('admin.quotes.index'),
     ],
     [

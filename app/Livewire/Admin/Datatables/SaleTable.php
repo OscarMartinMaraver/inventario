@@ -12,11 +12,11 @@ class SaleTable extends DataTableComponent
 {
     /**
      * * Reemplazamos la propiedad "$model = Sale::class" por el método builder()
-     * para realizar "Eager Loading" (carga ambiciosa) de la relación 'supplier'.
+     * para realizar "Eager Loading" (carga ambiciosa) de la relación 'customer'.
      *
-     * Esto evita el problema de N+1 consultas: sin el "with('supplier')", Laravel realizaría 
-     * 1 consulta para traer las N órdenes de compra y luego N consultas individuales más 
-     * para obtener el proveedor de cada una. Con este método, todo se resuelve en solo 2 consultas.
+     * Esto evita el problema de N+1 consultas: sin el "with('customer')", Laravel realizaría 
+     * 1 consulta para traer las N ventas y luego N consultas individuales más 
+     * para obtener el cliente de cada una. Con este método, todo se resuelve en solo 2 consultas.
      */
 
     //protected $model = Sale::class;

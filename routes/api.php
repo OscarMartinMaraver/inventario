@@ -4,6 +4,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
 use App\Models\Quote;
+use App\Models\Reason;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -191,3 +192,20 @@ Route::post('/quotes', function (request $request) {
         ];
     });
 })->name('api.sales.index');
+
+/**
+ * Esta ruta API será usada para buscar razones de movimiento en la BD u poder agregarlos al formulario de compra sin tener que precagrarlos
+ */
+Route::post('/reasons', function (request $request) {
+    return Reason::select('id', 'name')
+        ->when($request->search, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%");
+        })
+        ->when(
+            $request->exists('selected'),
+            fn($query) => $query->whereIn('id', $request->input('selected', [])),
+            fn($query) => $query->limit(10)
+        )
+        ->where('type', $request->input('type', '')) //va a filtrar por tipo (1 entrada, 2 salida)
+        ->get();
+})->name('api.reasons.index');

@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             IdentitySeeder::class,
             CategorySeeder::class,
             WarehouseSeeder::class,
+            ReasonSeeder::class,
         ]);
 
         // Crea clientes con factory
