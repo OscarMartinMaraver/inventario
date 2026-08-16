@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Transfer extends Model
 {
     protected $fillable=[
-        'type',
         'serie',
         'correlative',
         'date', 
@@ -15,6 +14,10 @@ class Transfer extends Model
         'observation',
         'origin_warehouse_id',
         'destination_warehouse_id'
+    ];
+
+    protected $casts=[
+        'date' => 'datetime',
     ];
 
     // Relacion uno a muchos inversa

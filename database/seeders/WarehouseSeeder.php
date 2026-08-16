@@ -17,5 +17,10 @@ class WarehouseSeeder extends Seeder
             'name' => 'Almacen principal',
             'location' => 'Calle Principal 123, Ciudad, País'
         ]);
+
+        Warehouse::create([
+            'name' => 'Almacen secundario',
+            'location' => 'Calle Secundaria 123, Ciudad, País'
+        ]);
     }
 }

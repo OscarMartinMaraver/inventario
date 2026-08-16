@@ -28,6 +28,9 @@ Route::post('/warehouses', function (request $request) {
             $query->where('name', 'like', "%{$search}%")
                 ->orWhere('location', 'like', "%{$search}%");
         })
+        ->when($request->exclude, function ($query, $exclude) {
+            $query->where('id', '!=',  $exclude);
+        })//Pregunto si en la consulta hay un parametro llamado exclude. Si es así, le pido que traiga todos los almacenes menos el seleccionadao
         ->when(
             $request->exists('selected'),
             fn($query) => $query->whereIn('id', $request->input('selected', [])),

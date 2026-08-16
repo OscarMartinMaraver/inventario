@@ -11,15 +11,15 @@ use Illuminate\Database\Eloquent\Builder;
 class MovementTable extends DataTableComponent
 {
     /**
-     * * Reemplazamos la propiedad "$model = PurchaseOrder::class" por el método builder()
-     * para realizar "Eager Loading" (carga ambiciosa) de la relación 'warehouse'.
+     * * Reemplazamos la propiedad "$model = Movement::class" por el método builder()
+     * para realizar "Eager Loading" (carga ambiciosa) de la relación 'warehouse'  'reason'.
      *
      * Esto evita el problema de N+1 consultas: sin el "with('warehouse')", Laravel realizaría 
      * 1 consulta para traer las N Movimientos y luego N consultas individuales más 
-     * para obtener el el almacén y motivo de cada una. Con este método, todo se resuelve en solo 2 consultas.
+     * para obtener el almacén y motivo de cada una. Con este método, todo se resuelve en solo 2 consultas.
      */
 
-    //protected $model = Quote::class;
+    //protected $model = Movement::class;
 
     public function configure(): void
     {
@@ -51,6 +51,9 @@ class MovementTable extends DataTableComponent
             Column::make("Motivo", "reason.name")
                 ->sortable()
                 ->searchable(),
+            Column::make("Total", "total")
+                ->sortable()
+                ->format(fn($value) => '€/ ' . number_format($value, 2, '.', ',')),
             Column::make("Acciones")
                 ->label(function ($row) {
                     return view('admin.movements.actions', ['movement' => $row]);
