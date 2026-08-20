@@ -1,5 +1,5 @@
 <div x-data="{
-    products: @entangle('products'), {{-- Uso Alpine para asociar a la propiedad "products" y "total" del componente livewire  PurchaseOrderCreate--}}
+    products: @entangle('products').live, {{-- Uso Alpine para asociar a la propiedad "products" y "total" del componente livewire --}}
 
     total: @entangle('total'),
     {{--Método para eliminar un producto--}}
@@ -45,6 +45,7 @@
                     option-label="name"   {{--Valor que se muestra en las opciones--}}
                     option-value="id"       {{--Valor que se envia en las opciones--}}
                     option-description="description"
+                    :disabled="count($products)" {{--Quiero que el almacén quede bloqueado una vez he seccionado un producto, ya que el movimiento debe estar asociado a un almacén--}}
                 /> 
 
                 <x-wire-select
@@ -99,7 +100,7 @@
                         <tr class= "text-gray-700 border-y bg-blue-50">
                             <th class="py-2 px-4">Productos</th>
                             <th class="py-2 px-4">Cantidad</th>
-                            <th class="py-2 px-4">Precio</th>
+                            <th class="py-2 px-4">Precio de costo</th>
                             <th class="py-2 px-4">Subtotal</th>
                             <th class="py-2 px-4"></th>
                         </tr>

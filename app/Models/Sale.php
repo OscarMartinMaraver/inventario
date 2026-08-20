@@ -38,4 +38,10 @@ class Sale extends Model
         ->withPivot('quantity', 'price', 'subtotal')
         ->withTimestamps(); //para que incluya la marca de tiempo
     }
+
+    // Relacion uno a muchos polimorfica con inventario
+    public function inventories()
+    {
+        return $this->morphMany(Inventory::class, 'inventoryable');
+    }
 }

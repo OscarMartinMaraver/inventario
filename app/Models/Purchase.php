@@ -38,4 +38,10 @@ class Purchase extends Model
         ->withPivot('quantity', 'price', 'subtotal')
         ->withTimestamps(); //para que incluya la marca de tiempo
     }
+
+    //Relacion uno a muchos polimórgica con inventario
+    public function inventories()
+    {
+        return $this->morphMany(Inventory::class, 'inventoryable'); //el segundo parámetro es el nombre de la llave polimórfica
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Facades\Kardex;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
@@ -11,7 +12,7 @@ class PurchaseCreate extends Component
 {
     public $voucher_type = 1;
 
-    public $serie; 
+    public $serie;
 
     public $correlative;
 
@@ -65,11 +66,10 @@ class PurchaseCreate extends Component
             $purchaseOrder = PurchaseOrder::find($value);
 
 
-            if ($purchaseOrder) 
-            {
+            if ($purchaseOrder) {
                 $this->voucher_type = $purchaseOrder->voucher_type;
 
-                $this->supplier_id= $purchaseOrder->supplier_id;
+                $this->supplier_id = $purchaseOrder->supplier_id;
 
                 $this->products = $purchaseOrder->products->map(function ($product) {
                     return [
@@ -88,8 +88,10 @@ class PurchaseCreate extends Component
     {
         $this->Validate([
             'product_id' => 'required|exists:products,id',
+            'warehouse_id' => 'required|exists:warehouses,id',
         ], [], [ //El segundo array es para personalizar el mensaje de error en el metodo validate
             'product_id' => 'producto', //El tercer array es para personalizar el nombre de las variables en el metodo validate. 
+            'warehouse_id' => 'almacen',
         ]);
 
         //Comprobar si el producto ya ha sido agregado
@@ -111,12 +113,14 @@ class PurchaseCreate extends Component
 
         $product = Product::find($this->product_id);
 
+        $lastRecord= Kardex::getLastRecord($product->id, $this->warehouse_id); //Utilizamos el provider para obtener el último precio que se le dió al producto
+
         $this->products[] = [
             'id' => $product->id,
             'name' => $product->name,
             'quantity' => 1,
-            'price' => 0,
-            'subtotal' => 0,
+            'price' => $lastRecord['cost'],
+            'subtotal' => $lastRecord['cost'],
 
         ];
 
@@ -125,7 +129,7 @@ class PurchaseCreate extends Component
     }
 
     /**El metodo Save registra la orden de compra en la base de datos */
-    public function save()
+    public function save() //Esto se llama inyeccion de dependencias. En lugar de instanciar el servicio dentro del metodo, se pasa como parametro
     {
         $this->Validate([
             'voucher_type' => 'required|in:1,2',
@@ -170,6 +174,20 @@ class PurchaseCreate extends Component
                 'price' => $product['price'],
                 'subtotal' => $product['quantity'] * $product['price'],
             ]);
+
+            //KARDEX (Modificación de inventario)
+
+            //En lugar de crear la logia para el manejo del kardex dentro del controlador, se pasa a un servicio, el cual he inyectado dentro del método save()
+            //Esto se llama  inyeccion de dependencias. En lugar de instanciar el servicio dentro del metodo, se pasa como parametro 
+            //  public function save(KardexService $kardex) y despues se llama el metodo
+    
+            //$kardex->registerEntry($purchase, $product, $this->warehouse_id, 'Compra');
+
+            //También se puede crear una fachada, que se encargue de llamar a los servicios y a los controladores. 
+            //Primero hay que registrarolos en el AppServiceProvider, resgistrar la insatnciación del servicio
+
+            Kardex::registerEntry($purchase, $product, $this->warehouse_id, 'Compra');
+
         }
 
         session()->flash('swal', [

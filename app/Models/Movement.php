@@ -32,6 +32,13 @@ class Movement extends Model
         ->withTimestamps(); //para que incluya la marca de tiempo
     }
 
+    //Relaacion uno a muchos polimorfica
+
+    public function inventories()
+    {
+        return $this->morphMany(Inventory::class, 'inventoryable');
+    }
+
     //Relación uno a muchos inversa
 
     public function warehouse()
@@ -43,4 +50,5 @@ class Movement extends Model
     {
         return $this->belongsTo(Reason::class);
     }
+ 
 }

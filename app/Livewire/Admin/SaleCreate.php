@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Admin;
 
+use App\Facades\Kardex;
 use App\Models\Product;
-use App\Models\Purchase;
 use App\Models\Quote;
 use App\Models\Sale;
 use Livewire\Component;
@@ -12,7 +12,7 @@ class SaleCreate extends Component
 {
     public $voucher_type = 1;
 
-    public $serie='F001'; 
+    public $serie = 'F001';
 
     public $correlative;
 
@@ -70,11 +70,10 @@ class SaleCreate extends Component
             $quote = Quote::find($value);
 
 
-            if ($quote) 
-            {
+            if ($quote) {
                 $this->voucher_type = $quote->voucher_type;
 
-                $this->customer_id= $quote->customer_id;
+                $this->customer_id = $quote->customer_id;
 
                 $this->products = $quote->products->map(function ($product) {
                     return [
@@ -175,17 +174,29 @@ class SaleCreate extends Component
                 'price' => $product['price'],
                 'subtotal' => $product['quantity'] * $product['price'],
             ]);
+
+            //KARDEX (Modificación de inventario)
+
+            //En lugar de crear la logia para el manejo del kardex dentro del controlador, se pasa a un servicio, el cual he inyectado dentro del método save()
+            //Esto se llama inyeccion de dependencias. En lugar de instanciar el servicio dentro del metodo, se pasa como parametro 
+            //  public function save(KardexService $kardex) y despues se llama el metodo
+
+            //$kardex->registerEntry($purchase, $product, $this->warehouse_id, 'Venta');
+
+            //También se puede crear una fachada, que se encargue de llamar a los servicios y a los controladores. 
+            //Primero hay que registrarolos en el AppServiceProvider, resgistrar la insatnciación del servicio
+
+            Kardex::registerEntry($sale, $product, $this->warehouse_id, 'Venta');
+
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Bien hecho!',
+                'text' => 'La  venta se ha registrado exitosamente.'
+            ]);
+
+            return redirect()->route('admin.sales.index');
         }
-
-        session()->flash('swal', [
-            'icon' => 'success',
-            'title' => '¡Bien hecho!',
-            'text' => 'La  venta se ha registrado exitosamente.'
-        ]);
-
-        return redirect()->route('admin.sales.index');
     }
-
     public function render()
     {
         return view('livewire.admin.sale-create');

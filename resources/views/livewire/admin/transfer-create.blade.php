@@ -1,5 +1,5 @@
 <div x-data="{
-    products: @entangle('products'), {{-- Uso Alpine para asociar a la propiedad "products" y "total" del componente livewire  PurchaseOrderCreate--}}
+    products: @entangle('products'), {{-- Uso Alpine para asociar a la propiedad "products" y "total" del componente livewire --}}
 
     total: @entangle('total'),
     {{--Método para eliminar un producto--}}
@@ -43,6 +43,7 @@
                     option-label="name"   {{--Valor que se muestra en las opciones--}}
                     option-value="id"       {{--Valor que se envia en las opciones--}}
                     option-description="description"
+                    :disabled="count($products)"
                 /> 
 
                 <x-wire-select

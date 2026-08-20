@@ -1,5 +1,5 @@
 <div x-data="{
-    products: @entangle('products'), {{-- Uso Alpine para asociar a la propiedad "products" y "total" del componente livewire  PurchaseOrderCreate--}}
+    products: @entangle('products'), {{-- Uso Alpine para asociar a la propiedad "products" y "total" del componente livewire --}}
 
     total: @entangle('total'),
     {{--Método para eliminar un producto--}}

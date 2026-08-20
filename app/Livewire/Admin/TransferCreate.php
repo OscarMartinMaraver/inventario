@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Facades\Kardex;
 use App\Models\Movement;
 use App\Models\Product;
 use App\Models\Quote;
@@ -77,8 +78,10 @@ class TransferCreate extends Component
     {
        $this->Validate([
            'product_id' => 'required|exists:products,id',
+           'origin_warehouse_id' => 'required|exists:warehouses,id',
        ],[],[ //El segundo array es para personalizar el mensaje de error en el metodo validate
            'product_id' => 'producto', //El tercer array es para personalizar el nombre de las variables en el metodo validate. 
+           'origin_warehouse_id' => 'almacen de origen'
         ]);
 
         //Comprobar si el producto ya ha sido agregado
@@ -101,12 +104,15 @@ class TransferCreate extends Component
 
         $product=Product::find($this->product_id);
 
+        $lastRecord= Kardex::getLastRecord($product->id, $this->origin_warehouse_id); //Utilizamos el provider para obtener el último precio que se le dió al producto
+
+
         $this->products[]=[
             'id'=>$product->id,
             'name'=>$product->name,
             'quantity'=>1,
-            'price'=>$product->price,
-            'subtotal'=>$product->price,
+            'price'=>$lastRecord['cost'],
+            'subtotal'=>$lastRecord['cost'],
             
         ];
         
@@ -157,6 +163,14 @@ class TransferCreate extends Component
                 'price' => $product['price'],
                 'subtotal' => $product['quantity'] * $product['price'],
             ]);
+
+            //REGISTRO DE ENTRADA Y SALIDA
+            //Utilizo el facade Kardex creado como en Movements, Purchases y Sales
+
+            Kardex::registerExit($transfer, $product, $this->origin_warehouse_id, 'Transferencia');
+
+            Kardex::registerEntry($transfer, $product, $this->destination_warehouse_id, 'Transferencia');
+
         }
 
         session()->flash('swal', [
