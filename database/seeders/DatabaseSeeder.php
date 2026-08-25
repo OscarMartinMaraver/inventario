@@ -41,6 +41,6 @@ class DatabaseSeeder extends Seeder
         Supplier::factory(50)->create();
 
         //Crea productos usando el factory en lugar de un archivo seeder
-        Product::factory(100)->create();
+        Product::factory(50)->create();
     }
 }

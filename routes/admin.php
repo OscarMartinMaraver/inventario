@@ -23,8 +23,11 @@ Route::get('/', function () {//No es necesario indicar el prefijo  /admin (ya qu
 //INVENTARIO
 
 Route::resource('categories', CategoryController::class)->except(['show']);
+
 Route::resource('products', ProductController::class)->except(['show']);
 Route::post('products/{product}/dropzone', [ProductController::class, 'dropzone'])->name('products.dropzone');// Ruta para almacenar imagenes con Dropzone
+Route::get('products/{product}/kardex',[ProductController::class, 'kardex'] )->name('products.kardex');
+
 Route::resource('warehouses', WarehouseController::class)->except(['show']);
 
 

@@ -17,7 +17,8 @@ class Product extends Model
         'sku',
         'barcode',
         'price',
-        'category_id'
+        'category_id',
+        'stock',
     ];
 
     //Accesores (nos permiten añadir - acceder a los atributos de la clase)

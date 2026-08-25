@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Inventory;
+use App\Models\Product;
 
 /**
  * Este servicio se encarga de todas las operaciones relacionadas con el Kardesx, las cuales tienen muchos elementos comunes
@@ -45,6 +46,8 @@ class KardexService
                 'product_id'=>$product['id'],   
                 'warehouse_id'=>$warehouseId,     
             ]);
+
+            Product::where('id', $product['id'])->increment('stock', $product['quantity']);
     }
 
     public function registerExit($model, array $product, $warehouseId, $detail)
@@ -66,5 +69,7 @@ class KardexService
                 'product_id'=>$product['id'],   
                 'warehouse_id'=>$warehouseId,     
             ]);
+
+        Product::where('id', $product['id'])->decrement('stock', $product['quantity']);
     }
 }

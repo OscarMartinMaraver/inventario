@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('barcode')->unique()->nullable();
             $table->decimal('price', 10, 2)->default(0.00);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }

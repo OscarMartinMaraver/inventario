@@ -186,7 +186,7 @@ class SaleCreate extends Component
             //También se puede crear una fachada, que se encargue de llamar a los servicios y a los controladores. 
             //Primero hay que registrarolos en el AppServiceProvider, resgistrar la insatnciación del servicio
 
-            Kardex::registerEntry($sale, $product, $this->warehouse_id, 'Venta');
+            Kardex::registerExit($sale, $product, $this->warehouse_id, 'Venta');
 
             session()->flash('swal', [
                 'icon' => 'success',

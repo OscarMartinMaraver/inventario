@@ -1,6 +1,11 @@
 <div class="flex items-center space-x-2">
+
+     <x-wire-button href="{{ route('admin.products.kardex', $product) }}" green>
+        <i class="fas fa-boxes-stacked"></i>
+    </x-wire-button>
+
     <x-wire-button href="{{ route('admin.products.edit', $product) }}" blue>
-        Editar
+        <i class="fas fa-edit"></i>
     </x-wire-button>
 
     {{-- El boton de eliminar no se puede poner directamente, debe estar en un formulario para hacer petición tipo Delete--}}
@@ -8,7 +13,7 @@
         @csrf
         @method('DELETE')
         <x-wire-button type="submit" red>{{--Hay que indicar expresamente type=submit para que no se envie el formulario, ya que los componentes tipo button de wireUI no envian el formulario--}}
-            Eliminar
+            <i class="fas fa-trash-alt"></i>
         </x-wire-button>
     </form>
 
