@@ -5,7 +5,10 @@ namespace App\Livewire\Admin\Datatables;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Purchase;
+use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Builder;
+use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
 class PurchaseTable extends DataTableComponent
 {
@@ -24,6 +27,32 @@ class PurchaseTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'desc');
+    }
+
+    public function filters(): array{
+        return[
+            DateRangeFilter::make('Fecha')
+            ->config([
+                'placeholder' => 'Desde - Hasta',
+            ])
+            ->filter(function(Builder $query, array $dateRange) {
+                $query->whereBetween('date', [
+                    $dateRange['minDate'], 
+                    $dateRange['maxDate']
+                    ]);
+            }),
+             MultiSelectFilter::make('Proveerdor')
+            ->options(
+                Supplier::query()
+                    ->orderBy('name')
+                    ->get()
+                    ->keyBy('id')
+                    ->map(fn($tag) => $tag->name)
+                    ->toArray()
+            )->filter(function (Builder $query, array $selectedIds) {
+                $query->whereIn('supplier_id', $selectedIds);
+            })
+        ];
     }
 
     public function columns(): array

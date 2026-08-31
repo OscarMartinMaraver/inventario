@@ -6,6 +6,7 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Transfer;
 use Illuminate\Database\Eloquent\Builder;
+use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
 
 class TransferTable extends DataTableComponent
 {
@@ -26,6 +27,20 @@ class TransferTable extends DataTableComponent
         $this->setDefaultSort('id', 'desc');
     }
 
+     public function filters(): array{
+        return[
+            DateRangeFilter::make('Fecha')
+            ->config([
+                'placeholder' => 'Desde - Hasta',
+            ])
+            ->filter(function(Builder $query, array $dateRange) {
+                $query->whereBetween('date', [
+                    $dateRange['minDate'], 
+                    $dateRange['maxDate']
+                    ]);
+            }),
+        ];
+    }
     public function columns(): array
     {
         return [
