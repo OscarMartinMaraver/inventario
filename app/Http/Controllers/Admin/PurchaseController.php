@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Purchase;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PurchaseController extends Controller
 {
@@ -15,5 +16,13 @@ class PurchaseController extends Controller
     public function create()
     {
         return view('admin.purchases.create');
+    }
+
+    //PDF
+    public function pdf(Purchase $purchase)
+    {
+        $pdf= Pdf::loadView('admin.purchases.pdf', compact('purchase'));
+        return $pdf->download("Compra-{$purchase->id}.pdf");
+        
     }
 }

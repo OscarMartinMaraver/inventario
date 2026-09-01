@@ -27,6 +27,11 @@ class Sale extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
     
      // Realación muchos a muchos polimorfica
 

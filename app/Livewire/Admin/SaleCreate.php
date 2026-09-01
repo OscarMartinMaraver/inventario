@@ -188,6 +188,7 @@ class SaleCreate extends Component
 
             Kardex::registerExit($sale, $product, $this->warehouse_id, 'Venta');
 
+        }
             session()->flash('swal', [
                 'icon' => 'success',
                 'title' => '¡Bien hecho!',
@@ -195,7 +196,7 @@ class SaleCreate extends Component
             ]);
 
             return redirect()->route('admin.sales.index');
-        }
+        
     }
     public function render()
     {

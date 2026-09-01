@@ -19,7 +19,7 @@
     }
 }">
     <x-wire-card>
-        <form wire:submit="save" class="space-y-4"> {{-- cuando se mande el formulario se ejecutara el metodo save. Lo declaro en el componenete livewire  PurchaseOrderCreate--}}
+        <form wire:submit="save" class="space-y-4"> {{-- cuando se mande el formulario se ejecutara el metodo save. Lo declaro en el componenete livewire  SaleCreate--}}
             <div class="grid lg:grid-cols-4 gap-4">
 
                 <x-wire-native-select label="Tipo de comprobante" wire:model="voucher_type"> {{-- Voucher_type es la propiedad del componente livewire que se va a actualizar con el valor del select. La propiedad se define en el componente livewire  PurchaseOrderCreate--}}

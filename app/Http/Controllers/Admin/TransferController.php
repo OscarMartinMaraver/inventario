@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Transfer;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransferController extends Controller
 {
@@ -15,5 +16,12 @@ class TransferController extends Controller
     public function create()
     {
         return view('admin.transfers.create');
+    }
+
+      public function pdf(Transfer $transfer)
+    {
+        $pdf= Pdf::loadView('admin.transfers.pdf', compact('transfer'));
+        return $pdf->download("Transferencia-{$transfer->id}.pdf");
+        
     }
 }
