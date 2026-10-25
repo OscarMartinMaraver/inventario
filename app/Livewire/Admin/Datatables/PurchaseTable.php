@@ -30,7 +30,7 @@ class PurchaseTable extends DataTableComponent
         $this->setDefaultSort('id', 'desc');
         $this->setConfigurableAreas([
             'after-wrapper' => [
-                'admin.purchases.modal'
+                'admin.pdf.modal'
             ],
         ]);
     }

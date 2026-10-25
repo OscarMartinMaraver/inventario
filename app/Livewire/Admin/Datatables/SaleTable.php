@@ -7,6 +7,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Purchase;
 use App\Models\Sale;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
 
 class SaleTable extends DataTableComponent
@@ -26,6 +27,12 @@ class SaleTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'desc');
+
+        $this->setConfigurableAreas([
+            'after-wrapper' => [
+                'admin.pdf.modal'
+            ],
+        ]);
     }
 
      public function filters(): array{
@@ -76,5 +83,50 @@ class SaleTable extends DataTableComponent
     public function builder(): Builder
     {
         return Sale::query()->with('customer');
+    }
+
+ 
+    //PROPIEDADES
+
+    public $form = [
+        'open' => false,
+        'document' => '',
+        'client' => '',
+        'email' => '',
+        'model' => null,
+        'view_pdf_path' => 'admin.sales.pdf',
+    ];
+
+    //MÉTODOS
+
+    public function openModal(Sale $sale)
+    {
+
+        $this->form['open'] = true;
+        $this->form['document'] = 'Venta ' . $sale->serie . '-' . $sale->correlative;
+        $this->form['client'] = $sale->customer->document_number . ' - ' . $sale->customer->name;
+        $this->form['email'] = $sale->customer->email;
+        $this->form['model'] = $sale;
+    }
+
+    public function sendEmail()
+    {
+
+        // Validar email
+        $this->validate([
+            'form.email' => 'required|email',
+        ]);
+
+        //Llamar a un mailable. Es necesario usar un facade
+        Mail::to($this->form['email'])->send(new \App\Mail\PdfSend($this->form));
+
+
+
+        $this->dispatch('swal', [
+            'icon' => 'success',
+            'title' => 'Correo enviado',
+            'html' => 'El correo se ha enviado correctamente',
+        ]);
+        $this->reset('form'); //reseteamos el formulario['open'] = false;
     }
 }

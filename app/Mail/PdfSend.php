@@ -30,7 +30,7 @@ class PdfSend extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pdf Send',
+            subject: $this->form['document'],
         );
     }
 
@@ -59,7 +59,7 @@ class PdfSend extends Mailable
         $pdf = Pdf::loadView(
             $this->form['view_pdf_path'],
             [
-                'purchase' => $this->form['model'],
+                'model' => $this->form['model'],
             ])->output(); //Necesito los datos en binario
 
         return [

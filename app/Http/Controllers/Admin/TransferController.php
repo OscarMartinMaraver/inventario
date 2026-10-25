@@ -20,7 +20,9 @@ class TransferController extends Controller
 
       public function pdf(Transfer $transfer)
     {
-        $pdf= Pdf::loadView('admin.transfers.pdf', compact('transfer'));
+        $pdf= Pdf::loadView('admin.transfers.pdf', [
+            'model'=>$transfer,
+        ]);
         return $pdf->download("Transferencia-{$transfer->id}.pdf");
         
     }

@@ -7,6 +7,7 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Quote;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
 
 class MovementTable extends DataTableComponent
@@ -26,6 +27,12 @@ class MovementTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'desc');
+
+        $this->setConfigurableAreas([
+            'after-wrapper' => [
+                'admin.pdf.modal'
+            ],
+        ]);
     }
 
      public function filters(): array{
@@ -87,5 +94,50 @@ class MovementTable extends DataTableComponent
             'warehouse',
             'reason',
             ]);
+    }
+
+       
+    //PROPIEDADES
+
+    public $form = [
+        'open' => false,
+        'document' => '',
+        'client' => '',
+        'email' => '',
+        'model' => null,
+        'view_pdf_path' => 'admin.movements.pdf',
+    ];
+
+    //MÉTODOS
+
+    public function openModal(Movement $movement)
+    {
+
+        $this->form['open'] = true;
+        $this->form['document'] = 'Moviento ' . $movement->serie . '-' . $movement->correlative;
+        $this->form['client'] = 'Origen: ' .  $movement->warehouse->name;
+        $this->form['email'] = '';
+        $this->form['model'] = $movement;
+    }
+
+    public function sendEmail()
+    {
+
+        // Validar email
+        $this->validate([
+            'form.email' => 'required|email',
+        ]);
+
+        //Llamar a un mailable. Es necesario usar un facade
+        Mail::to($this->form['email'])->send(new \App\Mail\PdfSend($this->form));
+
+
+
+        $this->dispatch('swal', [
+            'icon' => 'success',
+            'title' => 'Correo enviado',
+            'html' => 'El correo se ha enviado correctamente',
+        ]);
+        $this->reset('form'); //reseteamos el formulario['open'] = false;
     }
 }

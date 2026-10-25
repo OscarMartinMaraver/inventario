@@ -45,12 +45,12 @@
 <body>
 
     <div class="title">Detalle de Cotización
-        #{{ $quote->serie }}-{{ str_pad($quote->correlative, 4, '0', STR_PAD_LEFT) }}</div>
+        #{{ $model->serie }}-{{ str_pad($model->correlative, 4, '0', STR_PAD_LEFT) }}</div>
 
     <div>
-        <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($quote->date)->format('d/m/Y') }}<br>
-        <strong>Cliente:</strong> {{ $quote->customer->name ?? '—' }}<br>
-        <strong>Observación:</strong> {{ $quote->observation ?? '—' }}
+        <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($model->date)->format('d/m/Y') }}<br>
+        <strong>Cliente:</strong> {{ $model->customer->name ?? '—' }}<br>
+        <strong>Observación:</strong> {{ $model->observation ?? '—' }}
     </div>
 
     <div class="section">
@@ -65,7 +65,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($quote->products as $i => $product)
+                @foreach ($model->products as $i => $product)
                     <tr>
                         <td>{{ $i + 1 }}</td>
                         <td>{{ $product->name }}</td>
@@ -79,7 +79,7 @@
     </div>
 
     <div class="section" style="text-align: right;">
-        <strong>Total: S/ {{ number_format($quote->total, 2) }}</strong>
+        <strong>Total: S/ {{ number_format($model->total, 2) }}</strong>
     </div>
 
 </body>

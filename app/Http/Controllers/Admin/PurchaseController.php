@@ -21,7 +21,10 @@ class PurchaseController extends Controller
     //PDF
     public function pdf(Purchase $purchase)
     {
-        $pdf= Pdf::loadView('admin.purchases.pdf', compact('purchase'));
+        $pdf= Pdf::loadView('admin.purchases.pdf', [
+            'model'=>$purchase,
+            ]);
+            
         return $pdf->download("Compra-{$purchase->id}.pdf");
         
     }
