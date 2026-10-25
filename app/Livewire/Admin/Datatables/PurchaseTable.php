@@ -27,31 +27,37 @@ class PurchaseTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'desc');
+        $this->setConfigurableAreas([
+            'after-wrapper' => [
+                'admin.purchases.modal'
+            ],
+        ]);
     }
 
-    public function filters(): array{
-        return[
+    public function filters(): array
+    {
+        return [
             DateRangeFilter::make('Fecha')
-            ->config([
-                'placeholder' => 'Desde - Hasta',
-            ])
-            ->filter(function(Builder $query, array $dateRange) {
-                $query->whereBetween('date', [
-                    $dateRange['minDate'], 
-                    $dateRange['maxDate']
+                ->config([
+                    'placeholder' => 'Desde - Hasta',
+                ])
+                ->filter(function (Builder $query, array $dateRange) {
+                    $query->whereBetween('date', [
+                        $dateRange['minDate'],
+                        $dateRange['maxDate']
                     ]);
-            }),
-             MultiSelectFilter::make('Proveerdor')
-            ->options(
-                Supplier::query()
-                    ->orderBy('name')
-                    ->get()
-                    ->keyBy('id')
-                    ->map(fn($tag) => $tag->name)
-                    ->toArray()
-            )->filter(function (Builder $query, array $selectedIds) {
-                $query->whereIn('supplier_id', $selectedIds);
-            })
+                }),
+            MultiSelectFilter::make('Proveerdor')
+                ->options(
+                    Supplier::query()
+                        ->orderBy('name')
+                        ->get()
+                        ->keyBy('id')
+                        ->map(fn($tag) => $tag->name)
+                        ->toArray()
+                )->filter(function (Builder $query, array $selectedIds) {
+                    $query->whereIn('supplier_id', $selectedIds);
+                })
         ];
     }
 
@@ -88,5 +94,38 @@ class PurchaseTable extends DataTableComponent
     public function builder(): Builder
     {
         return Purchase::query()->with('supplier');
+    }
+
+    //PROPIEDADES
+
+    public $form = [
+        'open' => false,
+        'document' => '',
+        'client' => '',
+        'email' => '',
+    ];
+
+    //MÉTODOS
+
+    public function openModal(Purchase $purchase)
+    {
+
+        $this->form['open'] = true;
+        $this->form['document'] = 'Compra ' . $purchase->serie . '-' . $purchase->correlative;
+        $this->form['client'] = $purchase->supplier->document_number . ' - ' . $purchase->supplier->name;
+        $this->form['email'] = $purchase->supplier->email;
+    }
+
+    public function sendEmail()
+    {
+
+        //Llamar a un mailable
+
+        $this->dispatch('swal', [
+            'icon' => 'success',
+            'title' => 'Correo enviado',
+            'html' => 'El correo se ha enviado correctamente',
+        ]);
+        $this->reset('form'); //reseteamos el formulario['open'] = false;
     }
 }

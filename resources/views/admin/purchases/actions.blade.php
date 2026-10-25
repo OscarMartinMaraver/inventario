@@ -1,6 +1,6 @@
 <div class="flex items-center space-x-4">
 
-    <x-wire-button green>
+    <x-wire-button green wire:click="openModal({{$purchase->id}})">
         <i class="fa-solid fa-envelope"></i>
     </x-wire-button>
 
