@@ -7,6 +7,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
@@ -103,6 +104,8 @@ class PurchaseTable extends DataTableComponent
         'document' => '',
         'client' => '',
         'email' => '',
+        'model' => null,
+        'view_pdf_path' => 'admin.purchases.pdf',
     ];
 
     //MÉTODOS
@@ -114,12 +117,21 @@ class PurchaseTable extends DataTableComponent
         $this->form['document'] = 'Compra ' . $purchase->serie . '-' . $purchase->correlative;
         $this->form['client'] = $purchase->supplier->document_number . ' - ' . $purchase->supplier->name;
         $this->form['email'] = $purchase->supplier->email;
+        $this->form['model'] = $purchase;
     }
 
     public function sendEmail()
     {
 
-        //Llamar a un mailable
+        // Validar email
+        $this->validate([
+            'form.email' => 'required|email',
+        ]);
+
+        //Llamar a un mailable. Es necesario usar un facade
+        Mail::to($this->form['email'])->send(new \App\Mail\PdfSend($this->form));
+
+
 
         $this->dispatch('swal', [
             'icon' => 'success',
